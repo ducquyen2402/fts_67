@@ -1,0 +1,7 @@
+<% @exams.each do |exam| %>
+  <div>
+    <span><%= link_to exam.subject.name, exam %></span>
+    <span><%=  t "exam.#{exam.status}" %></span>
+  </div>
+<% end %>
+<%= will_paginate %>

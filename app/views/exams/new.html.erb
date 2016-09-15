@@ -1,0 +1,5 @@
+<%= form_for @exam do |f| %>
+  <%= f.label :subject %>
+  <%= f.select :subject_id, @subjects_select %>
+  <%= f.submit %>
+<% end %>

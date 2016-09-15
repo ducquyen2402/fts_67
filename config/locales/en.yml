@@ -35,3 +35,11 @@ en:
     success: "Account updated successfully."
     submit: "Save changes"
     confirmation: "Confirmation"
+  clock:
+    count_down: "Countdown Clock"
+  exam:
+    invalid_update: "Invalid Exam!"
+    create_error: "Exam has not been created!"
+    not_found: "Exam Not Found!"
+    save_button: "Save"
+    submit_button: "Submit"

@@ -3,7 +3,7 @@ class CreateChoices < ActiveRecord::Migration[5.0]
     create_table :choices do |t|
       t.references :exam, foreign_key: true
       t.references :question, foreign_key: true
-      t.references :answer, foreign_key: true
+      t.integer :answer_id
 
       t.timestamps
     end
