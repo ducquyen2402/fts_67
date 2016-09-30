@@ -1,11 +1,16 @@
+<h1><%= t "suggest_question.title" %></h1><br>
+
 <%= form_tag admin_suggest_questions_path, method: :get do %>
-  <p>
-    <%= hidden_field_tag :class_name, @class_name %>
-    <%= select_tag :subject_id, options_for_select(@subjects_select) %>
-    <%= select_tag :status, options_for_select(@status_select) %>
-    <%= text_field_tag :search, params[:search] %>
-    <%= submit_tag t(:search), name: "find" %>
-  </p>
+  <div class="row">
+    <div class="col-md-3 col-md-offset-1">
+      <%= select_tag :subject_id, options_for_select(@subjects_select) %></div>
+    <div class="col-md-3">
+      <%= select_tag :status, options_for_select(@status_select) %></div>
+    <div class="col-md-3">
+      <%= text_field_tag :search, params[:search] %></div>
+    <div class="col-md-1">
+      <%= submit_tag t(:search), name: "find" %></div>
+  </div><br>
 <% end %>
 <div class="mygrid-wrapper-div ">
   <table class="table sortable table-striped table-condensed">
@@ -25,7 +30,18 @@
             length: Settings.length),
             admin_suggest_question_path(suggest_question) %>
           </td>
-          <td><%= suggest_question.status %></td>
+          <td>
+            <% if suggest_question.approved? %>
+              <span class="label label-success"><%= suggest_question.status %>
+              </span>
+            <% elsif suggest_question.rejected? %>
+              <span class="label label-warning"><%= suggest_question.status %>
+              </span>
+            <% elsif suggest_question.unapproved? %>
+              <span class="label label-danger"><%= suggest_question.status %>
+              </span>
+            <% end %>
+          </td>
           <td><%= suggest_question.created_at %></td>
         </tr>
       <% end %>

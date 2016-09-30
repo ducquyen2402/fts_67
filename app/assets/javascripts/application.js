@@ -26,3 +26,31 @@ function add_fields(link, association, content) {
   var regexp = new RegExp('new_' + association, 'g')
   $(link).before(content.replace(regexp, new_id));
 }
+
+$(document).ready(function () {
+  var trigger = $('.hamburger'),
+  overlay = $('.overlay'),
+  isClosed = false;
+
+  trigger.click(function () {
+    hamburger_cross();
+  });
+
+  function hamburger_cross() {
+    if (isClosed == true) {
+      overlay.hide();
+      trigger.removeClass('is-open');
+      trigger.addClass('is-closed');
+      isClosed = false;
+    } else {
+      overlay.show();
+      trigger.removeClass('is-closed');
+      trigger.addClass('is-open');
+      isClosed = true;
+    }
+  }
+
+  $('[data-toggle="offcanvas"]').click(function () {
+    $('#wrapper').toggleClass('toggled');
+  });
+});

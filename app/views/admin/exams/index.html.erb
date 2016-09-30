@@ -1,3 +1,4 @@
+<h1><%= t "exam.content" %></h1><br>
 <div class="mygrid-wrapper-div ">
   <table class="table sortable table-striped table-condensed">
     <thead>
@@ -16,9 +17,23 @@
         <tr>
           <td><%= exam.id %></td>
           <td><%= link_to exam.subject.name, admin_exam_path(exam) %></td>
-          <td><%= exam.status %></td>
+          <td>
+            <% if exam.start? %>
+              <span class="label label-primary"><%= exam.status %></span>
+            <% elsif exam.testing? %>
+              <span class="label label-warning"><%= exam.status %></span>
+            <% elsif exam.unchecked? %>
+              <span class="label label-danger"><%= exam.status %></span>
+            <% elsif exam.checked? %>
+              <span class="label label-success"><%= exam.status %></span>
+            <% end %>
+          </td>
           <td><%= Settings.duration %></td>
-          <td><%= exam.spent_time %></td>
+          <td>
+            <% if exam.spent_time %>
+              <%= Time.at(exam.spent_time).utc.strftime t(:spent_time) %>
+            <% end %>
+          </td>
           <td><%= exam.score %></td>
           <td><%= exam.created_at.strftime t(:time) %></td>
         </tr>

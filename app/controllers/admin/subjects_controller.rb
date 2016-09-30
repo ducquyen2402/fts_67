@@ -1,7 +1,6 @@
 class Admin::SubjectsController < ApplicationController
   before_action :logged_in_user, :verify_admin
   before_action :find_subject, except: [:index, :new, :create]
-  before_action :load_subjects, only: :index
 
   def index
     @subject = Subject.new
@@ -32,7 +31,7 @@ class Admin::SubjectsController < ApplicationController
     current_user.generate_activity "created", @subject
     if @subject.save
       flash.now[:success] = t "subject.success"
-      render @subject
+      redirect_to admin_subject_path @subject
     else
       flash.now[:danger] = t "subject.fail"
       render :new
