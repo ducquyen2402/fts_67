@@ -39,11 +39,13 @@ if (ct_div !== null) {
   remain_div.style.display = 'none';
   spent_div.style.display = 'none';
   status_div.style.display = 'none';
+  if (spent_div.firstChild !== null) {
+    var spent = spent_div.firstChild.textContent;
+    var spent_time = {total: parseInt(spent), minutes: 0, seconds: 0};
+  }
   var remain = remain_div.firstChild.textContent;
   var remaining_time = {total: parseInt(remain) + 1, minutes: 0, seconds: 0};
   var status = status_div.firstChild.textContent;
-  var spent = spent_div.firstChild.textContent;
-  var spent_time = {total: parseInt(spent), minutes: 0, seconds: 0};
   var time = status === 'testing'? remaining_time : spent_time
 
   initializeClock(ct_div, time, status);
