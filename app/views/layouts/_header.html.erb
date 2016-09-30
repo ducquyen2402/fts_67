@@ -2,7 +2,9 @@
   <div class="container">
     <%= link_to t("header.logo"), root_path, id: "logo" %>
     <ul class="nav navbar-nav navbar-right">
-      <li><%= link_to t(:manage), admin_home_path %></li>
+      <% if logged_in? && current_user.is_admin? %>
+        <li><%= link_to t(:manage), admin_home_path %></li>
+      <% end %>
       <li><%= link_to t("signup.content"), signup_path %></li>
       <% if logged_in? %>
         <li class="dropdown">

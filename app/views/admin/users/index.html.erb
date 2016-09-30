@@ -1,5 +1,6 @@
 <% provide :title, t("user.all") %>
 <h1><%= t "user.all" %></h1>
+
 <table class="table sortable table-bordered">
   <thead>
     <tr>
@@ -7,6 +8,7 @@
       <th></th>
       <th><%= t "user.name" %></th>
       <th><%= t "user.email" %></th>
+      <th><%= t "user.position" %></th>
       <th><%= t "user.created_at" %></th>
       <th></th>
     </tr>
@@ -18,7 +20,14 @@
         <td><%= gravatar_for user, size: Settings.size %></td>
         <td><%= link_to user.name, user %></td>
         <td><%= user.email %></td>
-        <td><%= user.created_at.strftime t(:time) %></td>
+        <td>
+          <% if user.is_admin? %>
+            <%= t(:admin) %>
+          <% else %>
+            <%= t(:member) %>
+          <% end %>
+        </td>
+        <td><%= user.created_at.strftime t :time %></td>
         <td>
           <% unless current_user.current_user?(user) %>
             <%= link_to t("delete.content"), [:admin, user], method: :delete,

@@ -1,15 +1,24 @@
 <div class="container">
-  <h1><%= t "header.logo" %></h1>
+  <h1><%= t "header.logo" %></h1><br>
+
+  <div class="center">
+    <button type="button" class="btn btn-primary" data-toggle="modal"
+      data-target="#create_exam"><%= t "exam.create" %>
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal"
+      data-target="#suggestion"><%= t "suggest_question.contribute" %>
+    </button>
+  </div>
+
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#exam">
       <%= t "exam.content" %></a></li>
     <li><a data-toggle="tab" href="#suggest_question">
       <%= t "suggest_question.title" %></a></li>
   </ul>
-
   <div class="tab-content">
     <div id="exam" class="tab-pane fade in active mygrid-wrapper-div">
-      <table class="table sortable">
+      <table class="table sortable table-bordered">
         <thead>
           <tr>
             <th><%= t "exam.subject" %></th>
@@ -24,22 +33,26 @@
           <% @exams.each do |exam| %>
             <tr>
               <td><%= link_to exam.subject.name, exam %></td>
-              <td><%= exam.status %></td>
+              <td>
+                <% if exam.start? %>
+                  <span class="label label-primary"><%= exam.status %></span>
+                <% elsif exam.testing? %>
+                  <span class="label label-warning"><%= exam.status %></span>
+                <% elsif exam.unchecked? %>
+                  <span class="label label-danger"><%= exam.status %></span>
+                <% elsif exam.checked? %>
+                  <span class="label label-success"><%= exam.status %></span>
+                <% end %>
+              </td>
               <td><%= Settings.duration %></td>
               <td><%= exam.spent_time %></td>
               <td><%= exam.score %></td>
-              <td><%= exam.created_at %></td>
+              <td><%= exam.created_at.strftime t(:time) %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
-    </div>
-    <div>
-      <button type="button" class="btn btn-info btn-lg" data-toggle="modal"
-        data-target="#myModal">
-        <%= t "exam.create" %>
-      </button>
-      <div id="myModal" class="modal fade" role="dialog">
+      <div id="create_exam" class="modal fade" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -66,7 +79,7 @@
       </div>
     </div>
     <div id="suggest_question" class="tab-pane fade mygrid-wrapper-div">
-      <table class="table sortable">
+      <table class="table sortable table-bordered">
         <thead>
           <tr>
             <th><%= t "suggest_question.content" %></th>
@@ -97,12 +110,55 @@
                 </td>
               <% end %>
               <td><%= suggest_question.subject.name %></td>
-              <td><%= suggest_question.status %></td>
-              <td><%= suggest_question.created_at %></td>
+              <td>
+                <% if suggest_question.approved? %>
+                  <span class="label label-success">
+                    <%= suggest_question.status %></span>
+                <% elsif suggest_question.rejected? %>
+                  <span class="label label-warning">
+                    <%= suggest_question.status %></span>
+                <% elsif suggest_question.unapproved? %>
+                  <span class="label label-danger">
+                    <%= suggest_question.status %></span>
+                <% end %>
+              </td>
+              <td><%= suggest_question.created_at.strftime t(:time) %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
+      <div id="suggestion" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+              <h4 class="modal-title"><%= t "suggest_question.create" %></h4>
+            </div>
+            <div class="modal-body">
+              <%= form_for @suggest_question do |f| %>
+                <%= f.select :subject_id, @subjects_select %>
+                <%= f.label :content, t("question.content") %><br>
+                <%= f.text_area :content %>
+                <h2><%= t "answer.content" %></h2>
+                <%= f.fields_for :answers do |builder| %>
+                  <%= render "answer_fields", f: builder %>
+                <% end %>
+                <%= link_to_add_fields t("answer.add"), f, :answers %>
+                <%= f.submit t("suggest_question.submit"),
+                  class: "btn btn-primary" %>
+              <% end %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default"
+                data-dismiss="modal">
+                <%= t :close %>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

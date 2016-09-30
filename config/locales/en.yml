@@ -31,7 +31,7 @@ en:
   remember_me:
     content: "Remember me"
   edit:
-    content: "Edit user"
+    content: "Edit"
     success: "Account updated successfully."
     submit: "Save changes"
     confirmation: "Confirmation"
@@ -57,6 +57,7 @@ en:
     checked: "Checked"
     not_checked: "Unchecked"
     created_at: "Created at"
+    create: "Create exam"
   subject:
     title: "Add a Subject"
     success: "Create subject successfully."
@@ -72,6 +73,10 @@ en:
     name: "Subject"
     description: "Description"
     id: "ID"
+    manager: "Subjects"
+    view: "View Subjects"
+    numques: "Number of questions"
+    delete: "Delete this subject"
   flash:
     not_logged_in: "You are not log in."
     not_admin: "you are not admin."
@@ -93,7 +98,7 @@ en:
     nil: "question not present."
     created_fail: "Question has not been created"
     created_success: "create question successfully"
-    add: "Add Question"
+    add: "Add question"
     content: "Question"
     new: "New Questions"
     edit: "Edit Question"
@@ -101,6 +106,7 @@ en:
     update_success: "Question has been updated."
     submit: "Create Question"
     index: "All questions"
+    id: "ID"
   suggest_question:
     not_found: "Suggest question not found!"
     destroy_success: "Suggest has been deleted."
@@ -121,7 +127,9 @@ en:
     subject: "Subject"
     content: "Content"
     status: "Status"
-    date: "Date"
+    date: "Time"
+    contribute: "Contribute questions"
+    create: "Create Suggest Question"
   answer:
     content: "Answer"
     label: "Answer"
@@ -133,14 +141,17 @@ en:
   remove: "Remove"
   close: "Close"
   admin: "Administrator"
+  member: "Member"
   manage: "Systems management"
   user:
     name: "User name"
     email: "Email"
     id: "ID"
-    all: "All Users"
+    all: "Users"
     created_at: "Created at"
+    position: "Position"
   time: "%Y/%m/%d %H:%M"
+  spent_time: "%H:%M:%S"
   exam_status:
     all: "All"
     start: "Start"
@@ -152,3 +163,14 @@ en:
     rejected: "Rejected"
     approved: "Approved"
   search: "Search"
+  activity:
+    title: "Activities"
+    time: "Time"
+    userID: "User ID"
+    objectID: "Object ID"
+    type: "Action"
+    object: "Object"
+    description: "Description"
+    id: "ID"
+
+  description: "%{activity}"
