@@ -8,8 +8,7 @@
         <div class="col-md-6">
           <%= link_to t("suggest_question.delete"),
             admin_question_path(@question), method: :delete,
-            data: {confirm: t("delete.confirm")},
-            class: "btn btn-danger" %>
+            data: {confirm: t("delete.confirm")}, class: "btn btn-danger" %>
         </div>
         <div class="col-md-6">
           <%= f.submit t("edit.submit"), class: "btn btn-primary",

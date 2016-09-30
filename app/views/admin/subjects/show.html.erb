@@ -6,31 +6,45 @@
       <h2><li><%= t "subject.duration" %><%= @subject.duration %></li></h2>
       <h2><li><%= @subject.description %></li></h2>
     </div><br />
-    <div class="center"><%= link_to t("question.add"), new_admin_question_path,
-      class: "btn btn-lg btn-primary" %></div>
-    <div>
-      <%= form_tag admin_subject_path, method: :get do %>
-        <p>
-          <%= text_field_tag :search, params[:search] %>
-          <%= submit_tag t(:search), name: "find" %>
-        </p>
-      <% end %>
+    <div class="row">
+      <div class="col-md-6 center"><%= link_to t("question.add"),
+        new_admin_question_path(@subject.id),
+        class: "btn btn-success glyphicon glyphicon-plus" %>
+      </div>
+      <div class="col-md-6 center"><%= link_to t("subject.delete"),
+        admin_subject_path(@subject), method: :delete,
+        data: {confirm: t("delete.confirm")},
+        class: "btn btn-danger glyphicon glyphicon-trash" %>
+      </div>
     </div>
   </aside>
   <div class="col-md-8">
-    <h3 class="center"><%= t "question.title" %></h3>
+    <h3 class="center"><%= t "question.title" %></h3><br>
+    <div>
+      <%= form_tag admin_subject_path, method: :get do %>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-2">
+            <%= text_field_tag :search, params[:search] %>
+          </div>
+          <div class="col-md-2">
+            <%= submit_tag t(:search), name: "find" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
     <table class="table sortable table-bordered">
       <thead>
         <tr>
+          <th><%= t "question.id" %></th>
           <th><%= t "question.content" %></th>
         </tr>
       </thead>
       <tbody>
         <% @questions.each do |question| %>
           <tr>
-            <td>
-              <%= link_to question.content, admin_question_path(question) %>
-            </td>
+            <td><%= question.id %></td>
+            <td><%= link_to question.content,
+              admin_question_path(question) %></td>
           </tr>
         <% end %>
       </tbody>

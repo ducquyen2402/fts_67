@@ -15,11 +15,11 @@ class ExamsController < ApplicationController
   def create
     @exam = current_user.exams.new exam_params
     if @exam.save
-      redirect_to exams_path
+      flash[:success] = t "exam.create_success"
     else
       flash[:danger] = t "exam.create_error"
-      redirect_to root_path
     end
+    redirect_to root_path
   end
 
   def show

@@ -1,15 +1,19 @@
 <div class="container">
+  <h1><%= t "header.logo" %></h1><br>
   <h3><%= t :admin %></h3>
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#menu1">
       <%= t "exam.content" %></a></li>
     <li><a data-toggle="tab" href="#menu2">
       <%= t "suggest_question.title" %></a></li>
+    <li><a data-toggle="tab" href="#menu3">
+      <%= t "activity.title" %></a></li>
   </ul>
 
   <div class="tab-content mygrid-wrapper-div ">
     <div id="menu1" class="tab-pane fade in active">
-      <table class="table sortable table-striped table-condensed">
+      <table class="table sortable table-striped table-condensed
+        table-bordered">
         <thead>
           <tr>
             <th><%= t "exam.id" %></th>
@@ -23,21 +27,26 @@
         </thead>
         <tbody>
           <% @exams.each do |exam| %>
-            <tr>
-              <td><%= exam.id %></td>
-              <td><%= link_to exam.subject.name, admin_exam_path(exam) %></td>
-              <td><%= exam.status %></td>
-              <td><%= Settings.duration %></td>
-              <td><%= exam.spent_time %></td>
-              <td><%= exam.score %></td>
-              <td><%= exam.created_at %></td>
-            </tr>
+            <% if exam.unapproved? %>
+              <tr>
+                <td><%= exam.id %></td>
+                <td><%= link_to exam.subject.name, admin_exam_path(exam) %></td>
+                <td><span class="label label-danger">
+                  <%= exam.status %></span></td>
+                <td><%= Settings.duration %></td>
+                <td><%= exam.spent_time %></td>
+                <td><%= exam.score %></td>
+                <td><%= exam.created_at.strftime t(:time) %></td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>
     </div>
+
     <div id="menu2" class="tab-pane fade">
-      <table class="table sortable table-striped table-condensed">
+      <table class="table sortable table-striped table-condensed
+        table-bordered">
         <thead>
           <tr>
             <th><%= t "suggest_question.subject" %></th>
@@ -58,8 +67,57 @@
                     length: Settings.length %></span>
                 <% end %>
               </td>
-              <td><%= suggest_question.status %></td>
-              <td><%= suggest_question.created_at %></td>
+              <td><span class="label label-danger">
+                <%= suggest_question.status %></span></td>
+              <td><%= suggest_question.created_at.strftime t(:time) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="menu3" class="tab-pane fade">
+      <table class="table sortable table-striped table-condensed
+        table-bordered">
+        <thead>
+          <tr>
+            <th><%= t "activity.id" %></th>
+            <th><%= t "activity.userID" %></th>
+            <th><%= t "activity.type" %></th>
+            <th><%= t "activity.object" %></th>
+            <th><%= t "activity.objectID" %></th>
+            <th><%= t "activity.description" %></th>
+            <th><%= t "activity.time" %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @activities.each do |activity| %>
+            <tr>
+              <td><%= activity.id %></td>
+              <td><%= activity.user.name %></td>
+              <td>
+                <% if activity.created? %>
+                  <span class="label label-primary"><%= activity.action %>
+                  </span>
+                <% elsif activity.updated? %>
+                  <span class="label label-warning"><%= activity.action %>
+                  </span>
+                <% elsif activity.deleted? %>
+                  <span class="label label-danger"><%= activity.action %>
+                  </span>
+                <% end %>
+              </td>
+              <td><%= activity.activable_type %></td>
+              <td><%= activity.activable_id %></td>
+              <td>
+                <% if activity.deleted? %>
+                  <%= activity.description %>
+                <% else %>
+                  <%= link_to activity.description,
+                  [:admin, activity.activable] %>
+                <% end %>
+              </td>
+              <td><%= activity.created_at.strftime t(:time) %></td>
             </tr>
           <% end %>
         </tbody>

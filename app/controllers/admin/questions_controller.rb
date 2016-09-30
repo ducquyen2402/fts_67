@@ -17,7 +17,7 @@ class Admin::QuestionsController < ApplicationController
       @subject = @question.subject
       current_user.generate_activity "created", @question
       flash[:success] = t "question.created_success"
-      redirect_to admin_question_path @question
+      redirect_to admin_subject_path @subject
     else
       load_subjects
       flash[:danger] = t "question.created_fail"

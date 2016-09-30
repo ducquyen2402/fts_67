@@ -25,7 +25,6 @@ class Admin::ExamsController < ApplicationController
     redirect_to admin_home_path
   end
 
-
   private
   def find_exam
     @exam = Exam.find_by_id params[:id]

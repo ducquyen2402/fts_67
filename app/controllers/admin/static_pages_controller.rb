@@ -6,5 +6,6 @@ class Admin::StaticPagesController < ApplicationController
     @exams = Exam.unchecked.includes(:subject).order updated_at: :desc
     @suggest_questions = SuggestQuestion.unapproved
       .includes(:subject).order updated_at: :desc
+    @activities = Activity.includes(:user, :activable)
   end
 end
